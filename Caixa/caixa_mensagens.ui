@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Janela</class>
+ <widget class="QMainWindow" name="Janela">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>392</width>
+    <height>539</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Meu Programa</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(203, 187, 255);</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>359</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Nome:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="LeNome">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255); 
+border-radius: 15px; 
+border-style: outset; 
+border-width: 2px;</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>361</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QPushButton" name="BtAdicionar">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(73, 255, 85);
+border-radius: 15px;
+border-style: outset;
+border-width: 2px;</string>
+       </property>
+       <property name="text">
+        <string>Adicionar</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="BtOrdenar">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(85, 170, 255);
+border-radius: 15px;
+border-style: outset;
+border-width: 2px;</string>
+       </property>
+       <property name="text">
+        <string>Ordenar</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>430</y>
+      <width>361</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QLabel" name="LbConta">
+       <property name="text">
+        <string>Nº de Itens</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="BtExcluir">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 83, 83);
+border-radius: 15px;
+border-style: outset;
+border-width: 2px;</string>
+       </property>
+       <property name="text">
+        <string>Excluir Tudo</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QListWidget" name="Lista">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>200</y>
+      <width>341</width>
+      <height>221</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BtFechar">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>470</y>
+      <width>81</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 60, 60);
+border-radius: 15px;
+border-style: outset;
+border-width: 2px;
+</string>
+    </property>
+    <property name="text">
+     <string>Fechar</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>361</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Idade:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="LeIdade">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255); 
+border-radius: 15px; 
+border-style: outset; 
+border-width: 2px;</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>361</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Sexo:</string>
+    </property>
+    <widget class="QRadioButton" name="Rb1">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>10</y>
+       <width>82</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Masculino</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="Rb2">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>10</y>
+       <width>82</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Feminino</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>361</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Escolaridade:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="CbEscol">
+       <item>
+        <property name="text">
+         <string>Fundamental</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Medio</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Superior</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Pós-Graduação</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Mestrado</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Doutorado</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>392</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

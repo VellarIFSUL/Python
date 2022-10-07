@@ -8,6 +8,12 @@ dicio=dict()
 def adicionar():
     nome=janela.Nome.text()
     idade=janela.Idade.value()
+    continua=True
+    for i in range(janela.filtro.count()):
+        if(str(idade)==janela.filtro.itemText(i)):
+            continua=False
+    if(continua):
+        janela.filtro.addItem(str(idade))
     if nome!="":
         janela.Nome.clear()
         janela.Idade.setValue(1)
@@ -16,8 +22,15 @@ def adicionar():
         QMessageBox.critical(janela, "Error", "Nenhum nome no campo!", QMessageBox.Yes)
 
 def listar():
+    janela.List.clear()
+    filtro=janela.filtro.currentText()
     for nome in dicio.keys():
-        janela.List.addItem(nome+" - "+str(dicio[nome]))
+        if(filtro!='Filtro'):
+            if(filtro==str(dicio[nome])):
+                janela.List.addItem(nome+" - "+str(dicio[nome]))
+        else:
+            janela.List.addItem(nome+" - "+str(dicio[nome]))
+
 
 #programa principal
 app=QtWidgets.QApplication([])

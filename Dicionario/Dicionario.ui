@@ -95,8 +95,8 @@
    <widget class="QPushButton" name="ListarDados">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>120</y>
+      <x>430</x>
+      <y>150</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -109,7 +109,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>160</y>
+      <y>180</y>
       <width>256</width>
       <height>192</height>
      </rect>
@@ -133,6 +133,21 @@
     <property name="scaledContents">
      <bool>true</bool>
     </property>
+   </widget>
+   <widget class="QComboBox" name="filtro">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>150</y>
+      <width>69</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Filtro</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

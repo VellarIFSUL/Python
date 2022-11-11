@@ -6,99 +6,102 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>396</width>
-    <height>394</height>
+    <width>244</width>
+    <height>347</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:grey;</string>
+   <string notr="true">background-color:gray;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="btnProdutos">
+   <widget class="QLineEdit" name="lineEditUser">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>20</x>
+      <y>70</y>
+      <width>201</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: white;</string>
+    </property>
+    <property name="placeholderText">
+     <string>Nome de Usuario</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditPassword">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
       <y>120</y>
-      <width>181</width>
-      <height>71</height>
+      <width>201</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font-size:15pt;
-background-color: yellow;</string>
+     <string notr="true">background-color: white;</string>
     </property>
-    <property name="text">
-     <string>Produtos</string>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
+    </property>
+    <property name="placeholderText">
+     <string>Senha</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnClientes">
+   <widget class="QLineEdit" name="lineEditPasswordAgain">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>120</y>
-      <width>181</width>
-      <height>71</height>
+      <x>20</x>
+      <y>170</y>
+      <width>201</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font-size:15pt;
-background-color: pink;</string>
+     <string notr="true">background-color: white;</string>
     </property>
-    <property name="text">
-     <string>Clientes</string>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
+    </property>
+    <property name="placeholderText">
+     <string>Repita a senha</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnVendas">
+   <widget class="QPushButton" name="btnCad">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>210</y>
-      <width>181</width>
-      <height>71</height>
+      <x>80</x>
+      <y>240</y>
+      <width>91</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font-size:15pt;
-background-color: green;</string>
+     <string notr="true">font-size:15px;
+background-color:green;</string>
     </property>
     <property name="text">
-     <string>Vendas</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnUsuarios">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>210</y>
-      <width>181</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font-size:15pt;
-background-color: cyan;</string>
-    </property>
-    <property name="text">
-     <string>Usuarios</string>
+     <string>Cadastrar</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>10</x>
       <y>10</y>
-      <width>291</width>
-      <height>91</height>
+      <width>221</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font-size:20pt;</string>
+     <string notr="true">font-size:30pt;</string>
     </property>
     <property name="text">
-     <string>Gerencia Compras 0.8</string>
+     <string>Cadastro</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -110,7 +113,7 @@ background-color: cyan;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>396</width>
+     <width>244</width>
      <height>21</height>
     </rect>
    </property>

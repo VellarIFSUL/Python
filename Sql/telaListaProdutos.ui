@@ -73,7 +73,7 @@ background-color:red;</string>
    <widget class="QPushButton" name="btnPDF">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>160</x>
       <y>390</y>
       <width>91</width>
       <height>41</height>
@@ -98,10 +98,27 @@ background-color:blue;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">font-size:20px;
-background-color:yellow;</string>
+background-color:cyan;</string>
     </property>
     <property name="text">
      <string>Editar</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnCad">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>390</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size:20px;
+background-color:yellow;</string>
+    </property>
+    <property name="text">
+     <string>Cadastrar</string>
     </property>
    </widget>
   </widget>

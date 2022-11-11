@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09-Nov-2022 às 03:43
+-- Tempo de geração: 09-Nov-2022 às 08:41
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 7.4.30
 
@@ -22,6 +22,19 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `sistemapy` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `sistemapy`;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `cliente`
+--
+
+CREATE TABLE `cliente` (
+  `CPF` varchar(11) NOT NULL,
+  `email` text NOT NULL,
+  `nome` text NOT NULL,
+  `telefone` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -50,6 +63,12 @@ CREATE TABLE `usuario` (
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices para tabela `cliente`
+--
+ALTER TABLE `cliente`
+  ADD PRIMARY KEY (`CPF`);
 
 --
 -- Índices para tabela `produtos`

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>329</width>
-    <height>418</height>
+    <width>722</width>
+    <height>225</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,91 +17,11 @@
    <string notr="true">background-color:grey;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
+   <widget class="QPushButton" name="btnSalvar">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>0</y>
-      <width>261</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font-size:30px;</string>
-    </property>
-    <property name="text">
-     <string>Cadastro de Cliente</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEditCPF">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>60</y>
-      <width>201</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: white;</string>
-    </property>
-    <property name="placeholderText">
-     <string>CPF</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEditNome">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>110</y>
-      <width>201</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: white;</string>
-    </property>
-    <property name="placeholderText">
-     <string>Nome</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEditEmail">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>160</y>
-      <width>201</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: white;</string>
-    </property>
-    <property name="placeholderText">
-     <string>Email</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEditTelefone">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>210</y>
-      <width>201</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: white;</string>
-    </property>
-    <property name="placeholderText">
-     <string>Telefone</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnEnviar">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>330</y>
+      <x>300</x>
+      <y>130</y>
       <width>91</width>
       <height>41</height>
      </rect>
@@ -111,33 +31,97 @@
 background-color:green;</string>
     </property>
     <property name="text">
-     <string>Enviar</string>
+     <string>Salvar</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditCPF">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>60</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:white;</string>
+    </property>
+    <property name="placeholderText">
+     <string>CPF</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditNome">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>60</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:white;</string>
+    </property>
+    <property name="placeholderText">
+     <string>Nome</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditEmail">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>60</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:white;</string>
+    </property>
+    <property name="placeholderText">
+     <string>Email</string>
     </property>
    </widget>
    <widget class="QComboBox" name="cBEstado">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>250</y>
-      <width>201</width>
+      <x>500</x>
+      <y>60</y>
+      <width>71</width>
       <height>22</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: white;</string>
+     <string notr="true">background-color:white;</string>
     </property>
    </widget>
    <widget class="QComboBox" name="cBCidade">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>290</y>
-      <width>201</width>
+      <x>580</x>
+      <y>60</y>
+      <width>121</width>
       <height>22</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: white;</string>
+     <string notr="true">background-color:white;</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEditTelefone">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>60</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:white;</string>
+    </property>
+    <property name="placeholderText">
+     <string>Telefone</string>
     </property>
    </widget>
   </widget>
@@ -146,7 +130,7 @@ background-color:green;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>329</width>
+     <width>722</width>
      <height>21</height>
     </rect>
    </property>

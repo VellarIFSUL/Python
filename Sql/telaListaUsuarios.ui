@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>574</width>
+    <width>572</width>
     <height>476</height>
    </rect>
   </property>
@@ -34,50 +34,25 @@
     </attribute>
     <column>
      <property name="text">
-      <string>CPF</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Email</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
       <string>Nome</string>
      </property>
     </column>
-    <column>
-     <property name="text">
-      <string>Telefone</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Estado</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Cidade</string>
-     </property>
-    </column>
    </widget>
-   <widget class="QPushButton" name="btnExcluir">
+   <widget class="QPushButton" name="btnCad">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>310</x>
       <y>380</y>
-      <width>91</width>
+      <width>101</width>
       <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">font-size:20px;
-background-color:red;</string>
+background-color:yellow;</string>
     </property>
     <property name="text">
-     <string>Excluir</string>
+     <string>Cadastrar</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnEditar">
@@ -114,21 +89,21 @@ background-color:blue;</string>
      <string>PDF</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnCad">
+   <widget class="QPushButton" name="btnExcluir">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>10</x>
       <y>380</y>
-      <width>101</width>
+      <width>91</width>
       <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">font-size:20px;
-background-color:yellow;</string>
+background-color:red;</string>
     </property>
     <property name="text">
-     <string>Cadastrar</string>
+     <string>Excluir</string>
     </property>
    </widget>
   </widget>
@@ -137,7 +112,7 @@ background-color:yellow;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>574</width>
+     <width>572</width>
      <height>21</height>
     </rect>
    </property>

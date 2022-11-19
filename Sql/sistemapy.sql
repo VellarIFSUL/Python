@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09-Nov-2022 às 08:41
+-- Tempo de geração: 19-Nov-2022 às 03:52
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 7.4.30
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `sistemapy`
 --
-CREATE DATABASE IF NOT EXISTS `sistemapy` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `sistemapy`;
 
 -- --------------------------------------------------------
 
@@ -33,7 +31,9 @@ CREATE TABLE `cliente` (
   `CPF` varchar(11) NOT NULL,
   `email` text NOT NULL,
   `nome` text NOT NULL,
-  `telefone` text NOT NULL
+  `telefone` text NOT NULL,
+  `Estado` text NOT NULL,
+  `Cidade` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

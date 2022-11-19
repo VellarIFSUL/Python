@@ -1,5 +1,6 @@
 #importar bibliotecas:
 from PyQt5 import uic,QtWidgets
+from pyUFbr.baseuf import ufbr
 import mysql.connector
 from PyQt5.QtWidgets import QMessageBox
 from reportlab.pdfgen import canvas
@@ -69,8 +70,8 @@ def CallEditarProduto():
         valor_id = dados_lidos[linha][0]
         Cursor.execute("SELECT * FROM produtos WHERE id="+ str(valor_id))
         produto = Cursor.fetchall()
-        telaEditar.show()
-        janela=telaEditar
+        telaEditProduto.show()
+        janela=telaEditProduto
         janela.lineEditDesc.setText(str(produto[0][1]))
         janela.spinBoxPreco.setValue(produto[0][2])
         janela.lineEditCat.setText(str(produto[0][3]))
@@ -94,7 +95,7 @@ def ExcluirProduto():
 def EnviarEditProdutos():
     global numero_id
     # ler dados do lineEdit
-    janela=telaEditar
+    janela=telaEditProduto
     descricao = janela.lineEditDesc.text()
     preco = janela.spinBoxPreco.value()
     categoria = janela.lineEditCat.text()
@@ -175,9 +176,9 @@ def CallClientes():
     Cursor.execute("SELECT * FROM cliente")
     dados_lidos = Cursor.fetchall()
     janela.tableWidget.setRowCount(len(dados_lidos))
-    janela.tableWidget.setColumnCount(4)
+    janela.tableWidget.setColumnCount(6)
     for i in range(0, len(dados_lidos)):
-        for j in range(0, 4):
+        for j in range(0, 6):
             janela.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
     pass
 
@@ -207,20 +208,29 @@ def PDFClientes():
 def ExcluirCliente():
     janela = telaListaClientes
     try:
-        linha = janela.tableWidget.currentRow()
-        janela.tableWidget.removeRow(linha)
-        Cursor.execute("SELECT CPF FROM cliente")
-        dados_lidos = Cursor.fetchall()
-        valor_id = dados_lidos[linha][0]
-        Cursor.execute("DELETE FROM cliente WHERE CPF="+ str(valor_id))
-        BD.commit()
+        if QMessageBox.question(janela, "Excluir", "Deseja mesmo excluir?", QMessageBox.Yes, QMessageBox.No) == QMessageBox.Yes:
+            linha = janela.tableWidget.currentRow()
+            janela.tableWidget.removeRow(linha)
+            Cursor.execute("SELECT CPF FROM cliente")
+            dados_lidos = Cursor.fetchall()
+            valor_id = dados_lidos[linha][0]
+            Cursor.execute("DELETE FROM cliente WHERE CPF="+ str(valor_id))
+            BD.commit()
     except:
         QMessageBox.critical(janela,"Erro", "Nenhuma Linha Selecionada")
     pass
 
 def CallCadCliente():
     telaCadastroCliente.show()
+    telaCadastroCliente.cBEstado.setEditable(True)
+    telaCadastroCliente.cBEstado.addItems(ufbr.list_uf)
     telaListaClientes.close()
+
+def filtrocidadesCadCliente():
+    telaCadastroCliente.cBCidade.clear()
+    cidades= (ufbr.list_cidades(telaCadastroCliente.cBEstado.currentText()))
+    telaCadastroCliente.cBCidade.addItems(cidades)
+
 
 def CadCliente():
     janela = telaCadastroCliente
@@ -228,6 +238,8 @@ def CadCliente():
     nome=janela.lineEditNome.text()
     email=janela.lineEditEmail.text().casefold()
     telefone=janela.lineEditTelefone.text()
+    estado=janela.cBEstado.currentText()
+    cidade=janela.cBCidade.currentText()
     if(not(CPF.isnumeric() and (len(CPF)==11))):
         QMessageBox.critical(janela,"Erro", "CPF Invalido!")
         janela.lineEditCPF.setText("")
@@ -241,12 +253,12 @@ def CadCliente():
         janela.lineEditTelefone.setText("")
     else:
         try:
-            comando_SQL = "INSERT INTO cliente (CPF, email, nome, telefone) VALUES (%s,%s,%s,%s)"
-            dados = (CPF,email,nome,telefone)
+            comando_SQL = "INSERT INTO cliente (CPF, email, nome, telefone, Estado, Cidade) VALUES (%s,%s,%s,%s,%s,%s)"
+            dados = (CPF,email,nome,telefone,estado,cidade)
             Cursor.execute(comando_SQL,dados)
             BD.commit()
         except:
-            QMessageBox.critical(janela,"Aviso","Cliente já cadastrado")
+            QMessageBox.critical(janela,"Aviso","Erro no cadastro")
             janela.lineEditCPF.setText("")
         else:
             QMessageBox.about(janela,"Aviso","Cliente cadastrado com sucesso")
@@ -257,16 +269,83 @@ def CadCliente():
     pass
 
 def CallEditarCliente():
-    QMessageBox.information(telaListaClientes,"Ops", "Ops, essa função ainda n esta disponivel :(")
+    janela=telaListaClientes
+    global numero_cpf
+    try:
+        linha = janela.tableWidget.currentRow()
+        Cursor.execute("SELECT CPF FROM cliente")
+        dados_lidos = Cursor.fetchall() #pega todos os resultados do select e armazena em uma tupla
+        valor_cpf = dados_lidos[linha][0]
+        Cursor.execute("SELECT * FROM cliente WHERE CPF="+ str(valor_cpf))
+        cliente = Cursor.fetchall()
+        telaEditCliente.show()
+        janela=telaEditCliente
+        janela.lineEditCPF.setText(str(cliente[0][0]))
+        janela.lineEditEmail.setText(str(cliente[0][1]))
+        janela.lineEditNome.setText(str(cliente[0][2]))
+        janela.lineEditTelefone.setText(str(cliente[0][3]))
+        
+
+        janela.cBEstado.setEditable(True)
+        janela.cBEstado.addItems(ufbr.list_uf)
+
+        index = janela.cBEstado.findData(str(cliente[0][4]))
+        if(index != -1):
+            janela.cBEstado.setCurrentIndex(index)
+
+        index = janela.cBCidade.findData(str(cliente[0][5]))
+        if(index != -1):
+            janela.cBCidade.setCurrentIndex(index)
+        
+        numero_cpf = valor_cpf
+    except:
+        QMessageBox.critical(janela,"Erro", "Nenhuma Linha selecionada!")
+    pass
+
+def filtrocidadesEditCliente():
+    telaEditCliente.cBCidade.clear()
+    cidades= (ufbr.list_cidades(telaEditCliente.cBEstado.currentText()))
+    telaEditCliente.cBCidade.addItems(cidades)
+
+def EnviarEditClientes():
+    try:
+        global numero_cpf
+        # ler dados do lineEdit
+        janela=telaEditCliente
+        CPF = janela.lineEditCPF.text()
+        nome = janela.lineEditNome.text()
+        email = janela.lineEditEmail.text()
+        telefone = janela.lineEditTelefone.text()
+        estado=janela.cBEstado.currentText()
+        cidade=janela.cBCidade.currentText()
+        # atualizar os dados no banco
+        Cursor.execute("UPDATE cliente SET CPF = '{}', email ='{}', nome ='{}', telefone ='{}', Estado ='{}', Cidade ='{}' WHERE CPF ={}".format(CPF,email,nome,telefone,estado,cidade,numero_cpf))
+        BD.commit()
+        #atualizar as janelas
+        janela.close()
+        telaListaClientes.close()
+        CallClientes()
+    except:
+        QMessageBox.critical(janela,"Erro", "Ops, algo aconteceu")
     pass
 
 def CallVendas():
     QMessageBox.information(telaPrincipal,"Ops", "Ops, essa função ainda n esta disponivel :(")
     pass
+
 def CallUsuarios():
-    QMessageBox.information(telaPrincipal,"Ops", "Ops, essa função ainda n esta disponivel :(")
+    telaListaUsuarios.show()
+    janela = telaListaUsuarios
+    Cursor.execute("SELECT * FROM usuario")
+    dados_lidos = Cursor.fetchall()
+    janela.tableWidget.setRowCount(len(dados_lidos))
+    janela.tableWidget.setColumnCount(1)
+    for i in range(0, len(dados_lidos)):
+        for j in range(0, 1):
+            janela.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
     pass
 
+#Conectar Botões no Usuario
 
 #programa principal
 app=QtWidgets.QApplication([])
@@ -293,9 +372,12 @@ telaListaProdutos.btnCad.clicked.connect(CallCadProduto)
 telaCadastroProduto=uic.loadUi("telaCadProduto.ui")
 telaCadastroProduto.btnEnviar.clicked.connect(CadProduto)
 
+telaEditProduto=uic.loadUi("telaEditProduto.ui")
+telaEditProduto.btnSalvar.clicked.connect(EnviarEditProdutos)
 
-telaEditar=uic.loadUi("telaEditProduto.ui")
-telaEditar.btnSalvar.clicked.connect(EnviarEditProdutos)
+telaEditCliente=uic.loadUi("telaEditCliente.ui")
+telaEditCliente.cBEstado.currentIndexChanged.connect(filtrocidadesEditCliente)
+telaEditCliente.btnSalvar.clicked.connect(EnviarEditClientes)
 
 telaListaClientes=uic.loadUi("telaListaClientes.ui")
 telaListaClientes.btnPDF.clicked.connect(PDFClientes)
@@ -304,7 +386,10 @@ telaListaClientes.btnExcluir.clicked.connect(ExcluirCliente)
 telaListaClientes.btnCad.clicked.connect(CallCadCliente)
 
 telaCadastroCliente=uic.loadUi("telaCadCliente.ui")
+telaCadastroCliente.cBEstado.currentIndexChanged.connect(filtrocidadesCadCliente)
 telaCadastroCliente.btnEnviar.clicked.connect(CadCliente)
+
+telaListaUsuarios=uic.loadUi("telaListaUsuarios.ui")
 
 telaLogin.show()
 app.exec()

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>572</width>
-    <height>476</height>
+    <height>477</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,6 +17,23 @@
    <string notr="true">background-color:grey;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="btnCad">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>380</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size:20px;
+background-color:yellow;</string>
+    </property>
+    <property name="text">
+     <string>Cadastrar</string>
+    </property>
+   </widget>
    <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
@@ -34,31 +51,39 @@
     </attribute>
     <column>
      <property name="text">
-      <string>Nome</string>
+      <string>ID</string>
      </property>
     </column>
-   </widget>
-   <widget class="QPushButton" name="btnEditar">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>380</y>
-      <width>91</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font-size:20px;
-background-color:cyan;</string>
-    </property>
-    <property name="text">
-     <string>Editar</string>
-    </property>
+    <column>
+     <property name="text">
+      <string>Produto</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Cliente</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Qtd.</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Preço</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Total</string>
+     </property>
+    </column>
    </widget>
    <widget class="QPushButton" name="btnPDF">
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>250</x>
       <y>380</y>
       <width>91</width>
       <height>41</height>

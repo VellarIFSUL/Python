@@ -231,7 +231,6 @@ def filtrocidadesCadCliente():
     cidades= (ufbr.list_cidades(telaCadastroCliente.cBEstado.currentText()))
     telaCadastroCliente.cBCidade.addItems(cidades)
 
-
 def CadCliente():
     janela = telaCadastroCliente
     CPF=janela.lineEditCPF.text()
@@ -330,7 +329,15 @@ def EnviarEditClientes():
     pass
 
 def CallVendas():
-    QMessageBox.information(telaPrincipal,"Ops", "Ops, essa função ainda n esta disponivel :(")
+    telaListaVendas.show()
+    janela = telaListaVendas
+    Cursor.execute("SELECT v.ID, p.descricao, c.nome, v.Quantidade, p.preco, (p.preco*v.Quantidade) FROM vendas v INNER JOIN produtos p ON v.Produto=p.id INNER JOIN Cliente c ON v.Cliente=c.CPF;")
+    dados_lidos = Cursor.fetchall()
+    janela.tableWidget.setRowCount(len(dados_lidos))
+    janela.tableWidget.setColumnCount(6)
+    for i in range(0, len(dados_lidos)):
+        for j in range(0, 6):
+            janela.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
     pass
 
 def CallUsuarios():
@@ -345,7 +352,174 @@ def CallUsuarios():
             janela.tableWidget.setItem(i,j,QtWidgets.QTableWidgetItem(str(dados_lidos[i][j])))
     pass
 
-#Conectar Botões no Usuario
+def CallEditarUsuario():
+    janela=telaListaUsuarios
+    global nome_usuario
+    try:
+        linha = janela.tableWidget.currentRow()
+        Cursor.execute("SELECT nome FROM usuario")
+        dados_lidos = Cursor.fetchall() #pega todos os resultados do select e armazena em uma tupla
+        Cursor.execute("SELECT * FROM usuario WHERE nome = '"+ str(dados_lidos[linha][0])+"';")
+        usuario = Cursor.fetchall()
+        telaEditUsuario.show()
+        janela=telaEditUsuario
+        janela.lineEditUsuario.setText(str(usuario[0][0]))
+        nome_usuario = usuario[0][0]
+    except:
+        QMessageBox.critical(janela,"Erro", "Nenhuma Linha selecionada!")
+    pass
+
+def EnviarEditUsuario():
+    global nome_usuario
+    # ler dados do lineEdit
+    janela=telaEditUsuario
+    usuario = janela.lineEditUsuario.text()
+    senha = janela.lineEditSenha.text()
+    if senha == "":
+    # atualizar os dados no banco
+        Cursor.execute("UPDATE usuario SET nome = '{}' WHERE nome ='{}'".format(usuario,nome_usuario))
+    else:
+        Cursor.execute("UPDATE usuario SET nome = '{}', senha ='{}' WHERE nome ='{}'".format(usuario,senha,nome_usuario))
+    BD.commit()
+    #atualizar as janelas
+    janela.close()
+    telaListaUsuarios.close()
+    CallUsuarios()
+    pass
+
+def ExcluirUsuario():
+    janela = telaListaUsuarios
+    try:
+        if QMessageBox.question(janela, "Excluir", "Deseja mesmo excluir?", QMessageBox.Yes, QMessageBox.No) == QMessageBox.Yes:
+            linha = janela.tableWidget.currentRow()
+            janela.tableWidget.removeRow(linha)
+            Cursor.execute("SELECT nome FROM usuario")
+            dados_lidos = Cursor.fetchall()
+            valor_id = dados_lidos[linha][0]
+            Cursor.execute("DELETE FROM usuario WHERE nome='"+ str(valor_id)+"';")
+            BD.commit()
+    except:
+        QMessageBox.critical(janela,"Erro", "Nenhuma Linha Selecionada")
+    pass
+
+def PDFUsuarios():
+    janela = telaListaUsuarios
+    Cursor.execute("SELECT nome FROM usuario")
+    dados_lidos = Cursor.fetchall()
+    y = 0
+    pdf = canvas.Canvas("Usuarios.pdf")
+    pdf.setFont("Times-Bold", 25)
+    pdf.drawString(200,800,"Usuarios:")
+    pdf.setFont("Times-Bold", 18)
+    pdf.drawString(10,750,"Nome")
+    for i in range(0, len(dados_lidos)):
+        y = y + 50
+        pdf.drawString(10,750 - y, str(dados_lidos[i][0]))
+    pdf.save()
+    QMessageBox.information(janela,"PDF", "PDF GERADO")
+
+def ExcluirVenda():
+    janela = telaListaVendas
+    try:
+        if QMessageBox.question(janela, "Excluir", "Deseja mesmo excluir?", QMessageBox.Yes, QMessageBox.No) == QMessageBox.Yes:
+            linha = janela.tableWidget.currentRow()
+            janela.tableWidget.removeRow(linha)
+            Cursor.execute("SELECT ID FROM vendas")
+            dados_lidos = Cursor.fetchall()
+            valor_id = dados_lidos[linha][0]
+            Cursor.execute("DELETE FROM vendas WHERE ID="+ str(valor_id))
+            BD.commit()
+    except:
+        QMessageBox.critical(janela,"Erro", "Nenhuma Linha Selecionada")
+    pass
+    pass
+
+def PDFVendas():
+    janela = telaListaVendas
+    Cursor.execute("SELECT v.ID, p.descricao, c.nome, v.Quantidade, p.preco, (p.preco*v.Quantidade) FROM vendas v INNER JOIN produtos p ON v.Produto=p.id INNER JOIN Cliente c ON v.Cliente=c.CPF;")
+    dados_lidos = Cursor.fetchall()
+    y = 0
+    pdf = canvas.Canvas("Vendas.pdf")
+    pdf.setFont("Times-Bold", 25)
+    pdf.drawString(200,800,"Usuarios:")
+    pdf.setFont("Times-Bold", 18)
+    pdf.drawString(10,750,"ID")
+    pdf.drawString(110,750,"PRODUTO")
+    pdf.drawString(250,750,"CLIENTE")
+    pdf.drawString(350,750,"QUANTIDADE")
+    pdf.drawString(450,750,"PREÇO")
+    pdf.drawString(550,750,"TOTAL")
+    for i in range(0, len(dados_lidos)):
+        y = y + 50
+        pdf.drawString(10,750 - y, str(dados_lidos[i][0]))
+        pdf.drawString(110,750 - y, str(dados_lidos[i][1]))
+        pdf.drawString(250,750 - y, str(dados_lidos[i][2]))
+        pdf.drawString(350,750 - y, str(dados_lidos[i][3]))
+        pdf.drawString(450,750 - y, str(dados_lidos[i][4]))
+        pdf.drawString(550,750 - y, str(dados_lidos[i][5]))
+    pdf.save()
+    pass
+
+def CallCadVenda():
+    telaCadastroVendas.show()
+    janela=telaCadastroVendas
+    janela.cBProduto.clear()
+    janela.cBCliente.clear()
+    Cursor.execute("SELECT descricao, preco, id FROM produtos")
+    produtos = Cursor.fetchall()
+    global Produtos 
+    Produtos = produtos
+    for prod in produtos:
+        janela.cBProduto.addItem(str(prod[0]))
+    Cursor.execute("SELECT nome, CPF FROM cliente")
+    clientes = Cursor.fetchall()
+    global Clientes
+    Clientes = clientes
+    for cli in clientes:
+        janela.cBCliente.addItem(str(cli[0]))
+    pass
+
+def CalculaPreco():
+    janela = telaCadastroVendas
+    try:
+        i = janela.cBProduto.currentIndex()
+        qnt = janela.sBQuantidade.value()
+        valorTotal = Produtos[i][1]*qnt
+        janela.lblTotal.clear()
+        janela.lblTotal.setText('Total: '+str(valorTotal))
+    except:
+        janela.lblTotal.setText('Ero nu sistema!')
+    pass
+
+#TESTAR
+def CadVenda():
+    janela = telaCadastroVendas
+    try:
+        p = janela.cBProduto.currentIndex()
+        p = Produtos[p][2]
+    except:
+        p = ''
+    try:
+        c = janela.cBCliente.currentIndex()
+        c = Clientes[c][1]
+    except:
+        c = ''
+    q = janela.sBQuantidade.value()
+
+    if(p!="" and c!=""):
+        try:
+            Cursor.execute("INSERT INTO vendas (Produto,Cliente,Quantidade) VALUES (%s,%s,%s)",(str(p),str(c),str(q)))
+            BD.commit()
+        except:
+            QMessageBox.critical(janela,"Erro", "Ops! Algo deu Errado")
+        else:
+            telaListaVendas.close()
+            janela.close()
+            CallVendas()
+        pass
+    else:
+        QMessageBox.critical(janela,"Erro", "Ops! Algo deu Errado")
+    pass
 
 #programa principal
 app=QtWidgets.QApplication([])
@@ -390,6 +564,22 @@ telaCadastroCliente.cBEstado.currentIndexChanged.connect(filtrocidadesCadCliente
 telaCadastroCliente.btnEnviar.clicked.connect(CadCliente)
 
 telaListaUsuarios=uic.loadUi("telaListaUsuarios.ui")
+telaListaUsuarios.btnEditar.clicked.connect(CallEditarUsuario)
+telaListaUsuarios.btnExcluir.clicked.connect(ExcluirUsuario)
+telaListaUsuarios.btnPDF.clicked.connect(PDFUsuarios)
+
+telaEditUsuario=uic.loadUi("telaEditUsuario.ui")
+telaEditUsuario.btnSalvar.clicked.connect(EnviarEditUsuario)
+
+telaListaVendas=uic.loadUi("telaListaVendas.ui")
+telaListaVendas.btnExcluir.clicked.connect(ExcluirVenda)
+telaListaVendas.btnPDF.clicked.connect(PDFVendas)
+telaListaVendas.btnCad.clicked.connect(CallCadVenda)
+
+telaCadastroVendas=uic.loadUi("TelaCadVenda.ui")
+telaCadastroVendas.btnEnviar.clicked.connect(CadVenda)
+telaCadastroVendas.cBProduto.currentIndexChanged.connect(CalculaPreco)
+telaCadastroVendas.sBQuantidade.valueChanged.connect(CalculaPreco)
 
 telaLogin.show()
 app.exec()

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19-Nov-2022 às 03:52
+-- Tempo de geração: 25-Nov-2022 às 00:10
 -- Versão do servidor: 10.4.25-MariaDB
 -- versão do PHP: 7.4.30
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `sistemapy`
 --
+CREATE DATABASE IF NOT EXISTS `sistemapy` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `sistemapy`;
 
 -- --------------------------------------------------------
 
@@ -60,6 +62,19 @@ CREATE TABLE `usuario` (
   `senha` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `vendas`
+--
+
+CREATE TABLE `vendas` (
+  `ID` int(11) NOT NULL,
+  `Produto` text NOT NULL,
+  `Cliente` text NOT NULL,
+  `Quantidade` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Índices para tabelas despejadas
 --
@@ -83,6 +98,12 @@ ALTER TABLE `usuario`
   ADD PRIMARY KEY (`nome`);
 
 --
+-- Índices para tabela `vendas`
+--
+ALTER TABLE `vendas`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- AUTO_INCREMENT de tabelas despejadas
 --
 
@@ -91,6 +112,12 @@ ALTER TABLE `usuario`
 --
 ALTER TABLE `produtos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `vendas`
+--
+ALTER TABLE `vendas`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

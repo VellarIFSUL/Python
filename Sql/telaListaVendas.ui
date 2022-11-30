@@ -83,7 +83,7 @@ background-color:yellow;</string>
    <widget class="QPushButton" name="btnPDF">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>240</x>
       <y>380</y>
       <width>91</width>
       <height>41</height>

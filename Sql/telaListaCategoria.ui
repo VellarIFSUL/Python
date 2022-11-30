@@ -6,75 +6,85 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>474</width>
-    <height>172</height>
+    <width>442</width>
+    <height>464</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">background-color:gray;</string>
-  </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLineEdit" name="lineEditDesc">
+   <widget class="QPushButton" name="btnExcluir">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>20</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:white;</string>
-    </property>
-    <property name="placeholderText">
-     <string>Descrição</string>
-    </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="spinBoxPreco">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>20</y>
-      <width>62</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:white;</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnSalvar">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>70</y>
+      <x>10</x>
+      <y>370</y>
       <width>91</width>
       <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">font-size:20px;
-background-color:green;</string>
+background-color:red;</string>
     </property>
     <property name="text">
-     <string>Salvar</string>
+     <string>Excluir</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="cBCategoria">
+   <widget class="QPushButton" name="btnCad">
     <property name="geometry">
      <rect>
-      <x>288</x>
-      <y>20</y>
-      <width>161</width>
-      <height>22</height>
+      <x>180</x>
+      <y>370</y>
+      <width>101</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">Background-color:White;</string>
+     <string notr="true">font-size:20px;
+background-color:yellow;</string>
     </property>
+    <property name="text">
+     <string>Cadastrar</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnEditar">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>370</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size:20px;
+background-color:cyan;</string>
+    </property>
+    <property name="text">
+     <string>Editar</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>421</width>
+      <height>351</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:white</string>
+    </property>
+    <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>127</number>
+    </attribute>
+    <column>
+     <property name="text">
+      <string>Nome</string>
+     </property>
+    </column>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -82,7 +92,7 @@ background-color:green;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>474</width>
+     <width>442</width>
      <height>21</height>
     </rect>
    </property>

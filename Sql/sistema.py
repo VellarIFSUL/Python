@@ -14,6 +14,12 @@ BD = mysql.connector.connect (
 Cursor = BD.cursor()
 
 def CallCadProduto():
+    global Categorias
+    Cursor.execute("SELECT * FROM categorias")
+    Categorias = Cursor.fetchall()
+    telaCadastroProduto.cBCategoria.clear()
+    for p in Categorias:
+        telaCadastroProduto.cBCategoria.addItem(str(p[1]))
     telaCadastroProduto.show()
     telaListaProdutos.close()
 
@@ -21,18 +27,11 @@ def CadProduto():
     janela = telaCadastroProduto
     desc = janela.lineEditDesc.text()
     preco = janela.spinBoxPreco.value()
-
-    if janela.rbInfo.isChecked():
-        categoria="Informatica"
-    elif janela.rbAli.isChecked():
-        categoria="Alimentos"
-    else:
-        categoria="Eletronicos"
-    
+    categoria = janela.cBCategoria.currentIndex()
+    categoria = Categorias[categoria][0]
     janela.lineEditDesc.setText("")
     janela.spinBoxPreco.setValue(0.00)
-    janela.rbInfo.setChecked(True)
-
+    janela.cBCategoria.setCurrentIndex(0)
     sqlEntry = "INSERT INTO produtos(descricao,preco,categoria) VALUES (%s,%s,%s)"
     dados = (desc,str(preco),categoria)
     Cursor.execute(sqlEntry,dados)
@@ -67,40 +66,47 @@ def CallEditarProduto():
         linha = janela.tableWidget.currentRow()
         Cursor.execute("SELECT id FROM produtos")
         dados_lidos = Cursor.fetchall() #pega todos os resultados do select e armazena em uma tupla
-        valor_id = dados_lidos[linha][0]
-        Cursor.execute("SELECT * FROM produtos WHERE id="+ str(valor_id))
+        numero_id = dados_lidos[linha][0]
+        Cursor.execute("SELECT * FROM produtos WHERE id="+ str(numero_id))
         produto = Cursor.fetchall()
         telaEditProduto.show()
         janela=telaEditProduto
         janela.lineEditDesc.setText(str(produto[0][1]))
         janela.spinBoxPreco.setValue(produto[0][2])
-        janela.lineEditCat.setText(str(produto[0][3]))
-        numero_id = valor_id
+        global Categorias
+        Cursor.execute("SELECT * FROM categorias")
+        Categorias = Cursor.fetchall()
+        janela.cBCategoria.clear()
+        for p in Categorias:
+            janela.cBCategoria.addItem(str(p[1]))
     except:
         QMessageBox.critical(janela,"Erro", "Nenhuma Linha selecionada!")
 
 def ExcluirProduto():
     janela = telaListaProdutos
     try:
-        linha = janela.tableWidget.currentRow()
-        janela.tableWidget.removeRow(linha)
-        Cursor.execute("SELECT id FROM produtos")
-        dados_lidos = Cursor.fetchall()
-        valor_id = dados_lidos[linha][0]
-        Cursor.execute("DELETE FROM produtos WHERE id="+ str(valor_id))
-        BD.commit()
+        if QMessageBox.question(janela, "Excluir", "Deseja mesmo excluir?", QMessageBox.Yes, QMessageBox.No) == QMessageBox.Yes:
+            linha = janela.tableWidget.currentRow()
+            Cursor.execute("SELECT id FROM produtos")
+            dados_lidos = Cursor.fetchall()
+            valor_id = dados_lidos[linha][0]
+            Cursor.execute("DELETE FROM produtos WHERE id="+ str(valor_id))
+            BD.commit()
+            janela.tableWidget.removeRow(linha)
     except:
-        QMessageBox.critical(janela,"Erro", "Nenhuma Linha Selecionada")
+        QMessageBox.critical(janela,"Erro", "Ops, algo não saiu como esperado")
 
 def EnviarEditProdutos():
     global numero_id
+    global Categorias
     # ler dados do lineEdit
     janela=telaEditProduto
     descricao = janela.lineEditDesc.text()
     preco = janela.spinBoxPreco.value()
-    categoria = janela.lineEditCat.text()
+    categoria = janela.cBCategoria.currentIndex()
+    categoria = Categorias[categoria][0]
     # atualizar os dados no banco
-    Cursor.execute("UPDATE produtos SET descricao = '{}', preco ='{}', categoria ='{}' WHERE id ={}".format(descricao,preco,categoria,numero_id))
+    Cursor.execute("UPDATE produtos SET descricao = '{}', preco ='{}', categoria ={} WHERE id ={}".format(descricao,preco,categoria,numero_id))
     BD.commit()
     #atualizar as janelas
     janela.close()
@@ -161,7 +167,7 @@ def CadUsuario():
 def CallProdutos():
     telaListaProdutos.show()
     janela = telaListaProdutos
-    Cursor.execute("SELECT * FROM produtos")
+    Cursor.execute("SELECT p.id, descricao, preco, c.Nome FROM produtos p INNER JOIN categorias c ON p.categoria= c.ID;")
     dados_lidos = Cursor.fetchall()
     janela.tableWidget.setRowCount(len(dados_lidos))
     janela.tableWidget.setColumnCount(4)
@@ -210,14 +216,14 @@ def ExcluirCliente():
     try:
         if QMessageBox.question(janela, "Excluir", "Deseja mesmo excluir?", QMessageBox.Yes, QMessageBox.No) == QMessageBox.Yes:
             linha = janela.tableWidget.currentRow()
-            janela.tableWidget.removeRow(linha)
             Cursor.execute("SELECT CPF FROM cliente")
             dados_lidos = Cursor.fetchall()
             valor_id = dados_lidos[linha][0]
             Cursor.execute("DELETE FROM cliente WHERE CPF="+ str(valor_id))
             BD.commit()
+            janela.tableWidget.removeRow(linha)
     except:
-        QMessageBox.critical(janela,"Erro", "Nenhuma Linha Selecionada")
+        QMessageBox.critical(janela,"Erro", "Ops algo deu errado!")
     pass
 
 def CallCadCliente():
@@ -309,7 +315,6 @@ def filtrocidadesEditCliente():
 def EnviarEditClientes():
     try:
         global numero_cpf
-        # ler dados do lineEdit
         janela=telaEditCliente
         CPF = janela.lineEditCPF.text()
         nome = janela.lineEditNome.text()
@@ -317,10 +322,8 @@ def EnviarEditClientes():
         telefone = janela.lineEditTelefone.text()
         estado=janela.cBEstado.currentText()
         cidade=janela.cBCidade.currentText()
-        # atualizar os dados no banco
         Cursor.execute("UPDATE cliente SET CPF = '{}', email ='{}', nome ='{}', telefone ='{}', Estado ='{}', Cidade ='{}' WHERE CPF ={}".format(CPF,email,nome,telefone,estado,cidade,numero_cpf))
         BD.commit()
-        #atualizar as janelas
         janela.close()
         telaListaClientes.close()
         CallClientes()
@@ -392,14 +395,14 @@ def ExcluirUsuario():
     try:
         if QMessageBox.question(janela, "Excluir", "Deseja mesmo excluir?", QMessageBox.Yes, QMessageBox.No) == QMessageBox.Yes:
             linha = janela.tableWidget.currentRow()
-            janela.tableWidget.removeRow(linha)
             Cursor.execute("SELECT nome FROM usuario")
             dados_lidos = Cursor.fetchall()
             valor_id = dados_lidos[linha][0]
             Cursor.execute("DELETE FROM usuario WHERE nome='"+ str(valor_id)+"';")
             BD.commit()
+            janela.tableWidget.removeRow(linha)
     except:
-        QMessageBox.critical(janela,"Erro", "Nenhuma Linha Selecionada")
+        QMessageBox.critical(janela,"Erro", "Ops algo deu errado!")
     pass
 
 def PDFUsuarios():
@@ -423,14 +426,14 @@ def ExcluirVenda():
     try:
         if QMessageBox.question(janela, "Excluir", "Deseja mesmo excluir?", QMessageBox.Yes, QMessageBox.No) == QMessageBox.Yes:
             linha = janela.tableWidget.currentRow()
-            janela.tableWidget.removeRow(linha)
             Cursor.execute("SELECT ID FROM vendas")
             dados_lidos = Cursor.fetchall()
             valor_id = dados_lidos[linha][0]
             Cursor.execute("DELETE FROM vendas WHERE ID="+ str(valor_id))
             BD.commit()
+            janela.tableWidget.removeRow(linha)
     except:
-        QMessageBox.critical(janela,"Erro", "Nenhuma Linha Selecionada")
+        QMessageBox.critical(janela,"Erro", "Ops, algo deu errado")
     pass
     pass
 
@@ -458,6 +461,7 @@ def PDFVendas():
         pdf.drawString(450,750 - y, str(dados_lidos[i][4]))
         pdf.drawString(550,750 - y, str(dados_lidos[i][5]))
     pdf.save()
+    QMessageBox.information(janela,"PDF", "PDF GERADO")
     pass
 
 def CallCadVenda():
@@ -491,7 +495,6 @@ def CalculaPreco():
         janela.lblTotal.setText('Ero nu sistema!')
     pass
 
-#TESTAR
 def CadVenda():
     janela = telaCadastroVendas
     try:
@@ -513,6 +516,7 @@ def CadVenda():
         except:
             QMessageBox.critical(janela,"Erro", "Ops! Algo deu Errado")
         else:
+            janela.sBQuantidade.setValue(1)
             telaListaVendas.close()
             janela.close()
             CallVendas()
@@ -520,6 +524,84 @@ def CadVenda():
     else:
         QMessageBox.critical(janela,"Erro", "Ops! Algo deu Errado")
     pass
+
+def CallCategoria():
+    telaListaCategoria.show()
+    janela = telaListaCategoria
+    Cursor.execute("SELECT * FROM categorias")
+    dados_lidos = Cursor.fetchall()
+    janela.tableWidget.setRowCount(len(dados_lidos))
+    janela.tableWidget.setColumnCount(1)
+    for i in range(0, len(dados_lidos)):
+        janela.tableWidget.setItem(i,0,QtWidgets.QTableWidgetItem(str(dados_lidos[i][1])))
+    pass
+
+def CallCadCategoria():
+    telaCadastroCategorias.show()
+    pass
+
+def CallEditarCategoria():
+    janela=telaListaCategoria
+    global id_edit
+    try:
+        linha = janela.tableWidget.currentRow()
+        Cursor.execute("SELECT ID FROM Categorias")
+        dados_lidos = Cursor.fetchall()
+        Cursor.execute("SELECT * FROM Categorias WHERE ID = '"+ str(dados_lidos[linha][0])+"';")
+        categoria = Cursor.fetchall()
+        telaEditCategorias.show()
+        janela=telaEditCategorias
+        janela.lineEditCategoria.setText(str(categoria[0][1]))
+        id_edit = categoria[0][0]
+    except:
+        QMessageBox.critical(janela,"Erro", "Ops Algo deu Errado!")
+    pass
+    pass
+
+def EnviarEditCategoria():
+    global id_edit
+    janela=telaEditCategorias
+    nome = janela.lineEditCategoria.text()
+    Cursor.execute("UPDATE categorias SET nome = '{}' WHERE id ='{}'".format(nome,id_edit))
+    BD.commit()
+    janela.close()
+    telaListaCategoria.close()
+    CallCategoria()
+    pass
+
+def ExcluirCategoria():
+    janela = telaListaCategoria
+    try:
+        if QMessageBox.question(janela, "Excluir", "Deseja mesmo excluir?", QMessageBox.Yes, QMessageBox.No) == QMessageBox.Yes:
+            linha = janela.tableWidget.currentRow()
+            Cursor.execute("SELECT id FROM categorias")
+            dados_lidos = Cursor.fetchall()
+            valor_id = dados_lidos[linha][0]
+            Cursor.execute("DELETE FROM categorias WHERE id="+ str(valor_id))
+            BD.commit()
+            janela.tableWidget.removeRow(linha)
+    except:
+        QMessageBox.critical(janela,"Erro", "Ops, algo não saiu como esperado")
+    pass
+
+def CadCategoria():
+    janela = telaCadastroCategorias
+    cat = janela.lineEditCategoria.text()
+    if(cat!=""):
+        try:
+            Cursor.execute("INSERT INTO categorias (Nome) VALUES ('{}')".format(cat))
+            BD.commit()
+        except:
+            QMessageBox.critical(janela,"Erro", "Ops! Algo deu Errado")
+        else:
+            telaListaCategoria.close()
+            janela.close()
+            CallCategoria()
+        pass
+    else:
+        print("hey")
+    pass
+    
 
 #programa principal
 app=QtWidgets.QApplication([])
@@ -542,6 +624,18 @@ telaListaProdutos.btnPDF.clicked.connect(PDFProdutos)
 telaListaProdutos.btnEditar.clicked.connect(CallEditarProduto)
 telaListaProdutos.btnExcluir.clicked.connect(ExcluirProduto)
 telaListaProdutos.btnCad.clicked.connect(CallCadProduto)
+telaListaProdutos.btnCategoria.clicked.connect(CallCategoria)
+
+telaListaCategoria=uic.loadUi("telaListaCategoria.ui")
+telaListaCategoria.btnCad.clicked.connect(CallCadCategoria)
+telaListaCategoria.btnEditar.clicked.connect(CallEditarCategoria)
+telaListaCategoria.btnExcluir.clicked.connect(ExcluirCategoria)
+
+telaCadastroCategorias=uic.loadUi("telaCadCategoria.ui")
+telaCadastroCategorias.btnEnviar.clicked.connect(CadCategoria)
+
+telaEditCategorias=uic.loadUi("telaEditCategoria.ui")
+telaEditCategorias.btnEnviar.clicked.connect(EnviarEditCategoria)
 
 telaCadastroProduto=uic.loadUi("telaCadProduto.ui")
 telaCadastroProduto.btnEnviar.clicked.connect(CadProduto)
